@@ -34,7 +34,9 @@ director.addJobs({
             // get data from job1
             head.get('api').tasks.getAllTasks();
 
-            resolve();
+            resolve({
+                result: true
+            });
         });
 
     },
@@ -86,7 +88,7 @@ director.run()
 
     })
     .catch((error) => {
-        
+
     });
 
 

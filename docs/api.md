@@ -29,6 +29,8 @@ return `this`
 
 ### `setPlanType (type, [options])`
 
+default plan type PLAN.SEQUENTIAL
+
 - `type` - String. Required. See [Plan Types](#plan-types)
 
 return `this`
@@ -53,6 +55,6 @@ return `Promise`
 
 ## Plan Types
 
-### `directorInstance.PLAN.SEQUENTIAL`
+### `Director.PLAN.SEQUENTIAL`
 
-### `directorInstance.PLAN.QUEUE`
+### `Director.PLAN.QUEUE`

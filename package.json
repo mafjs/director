@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf package coverage .nyc_output npm-debug.log",
-    "build": "./node_modules/.bin/babel src --out-dir ./package --presets es2015",
+    "build": "./node_modules/.bin/babel src --out-dir ./package --presets es2015 --source-maps",
     "build:for-test": "npm run build -- --plugins istanbul",
     "build:package-json": "node ./scripts/copyPackageJson",
     "dev": "npm run build -- --watch --plugins istanbul",
@@ -40,17 +40,22 @@
     "coveralls": "2.x",
     "eslint": "3.x",
     "in-publish": "^2.0.0",
+    "log4js-nested": "^1.0.1",
     "proxyquire": "1.x",
+    "source-map-support": "^0.4.14",
     "tap": "10.x"
   },
   "dependencies": {
+    "event-emitter": "^0.3.5",
+    "lodash.get": "4.4.x",
+    "lodash.set": "4.3.x",
     "maf-error": "0.9.x"
   },
   "nyc": {
     "all": true,
     "include": [
       "src/*.js",
-      "src/methods/**/*.js"
+      "src/**/*.js"
     ],
     "exclude": [
       "src/modules/kind-of.js"
