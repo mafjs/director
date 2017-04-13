@@ -79,6 +79,14 @@ class Director {
 
         return new Promise((resolve, reject) => {
 
+            if (this._plan.length === 0) {
+                return reject(new this.Error(this.Error.CODES.NO_PLAN));
+            }
+
+            if (Object.keys(this._jobs).length === 0) {
+                return reject(new this.Error(this.Error.CODES.NO_JOBS));
+            }
+
             var QueuePlan = require('./plans/Queue');
 
             var plan = new QueuePlan(
