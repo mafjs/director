@@ -18,7 +18,7 @@ class QueuePlan {
 
         this._queue = [];
 
-        this._activeJobs = {};
+        this._activeSteps = {};
 
         this._events = new EventEmitter();
     }
@@ -42,7 +42,7 @@ class QueuePlan {
             });
 
             for (var i = 0; i < this._planOptions.workers; i++) {
-                this._runJobFromQueue();
+                this._runStepFromQueue();
             }
 
         });
@@ -52,49 +52,77 @@ class QueuePlan {
     _next () {
 
         var queueCount = this._queue.length;
-        var activeJobsCount = Object.keys(this._activeJobs).length;
+        var activeStepCount = Object.keys(this._activeSteps).length;
 
         this._logger.debug(
-            `check done queueCount = ${queueCount}, activeJobsCount = ${activeJobsCount}`
+            `check done queueCount = ${queueCount}, activeStepCount = ${activeStepCount}`
         );
 
-        if (queueCount === 0 && activeJobsCount === 0) {
+        if (queueCount === 0 && activeStepCount === 0) {
             this._events.emit('done');
             return;
         }
 
         if (queueCount === 0) {
-            this._logger.debug(`queue empty, but ${activeJobsCount} jobs still running`);
+            this._logger.debug(`queue empty, but ${activeStepCount} jobs still running`);
             return;
         }
 
-        this._runJobFromQueue();
+        this._runStepFromQueue();
 
     }
 
-    _runJobFromQueue () {
+    _runStepFromQueue () {
         var planId = this._queue.shift();
-        this._runJob(planId, this._plan[planId]);
+        this._runStep(planId, this._plan[planId]);
     }
 
-    _runJob (planId, step) {
-        // TODO if array run in parallel
+    _runStep (planId, step) {
+        this._activeSteps[planId] = step;
 
-        this._activeJobs[planId] = step;
+        var promises = [];
+
+        if (Array.isArray(step)) {
+
+            step.forEach((substep) => {
+                promises.push(this._runJob(substep));
+            });
+
+        } else {
+            promises.push(this._runJob(step));
+        }
+
+        Promise.all(promises)
+            .then(() => {
+                delete this._activeSteps[planId];
+                this._events.emit('next');
+            })
+            .catch((error) => {
+                delete this._activeSteps[planId];
+                this._events.emit('error', error);
+            });
+
+
+    }
+
+    _runJob (step) {
+        // TODO if array run in parallel
 
         var handler = this.getJobHandler(step.job);
 
         // TODO logger for plan step
-        handler(this._logger, this._head, step.data)
+        return handler(this._logger, this._head, step.data)
             .then((result) => {
                 step.result = result;
-                delete this._activeJobs[planId];
-                this._events.emit('next');
-            })
-            .catch((error) => {
-                delete this._activeJobs[planId];
-                this._events.emit('error', error);
+
+                return result;
+                // delete this._activeSteps[planId];
+                // this._events.emit('next');
             });
+            // .catch((error) => {
+                // delete this._activeSteps[planId];
+                // this._events.emit('error', error);
+            // });
 
     }
 

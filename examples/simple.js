@@ -21,17 +21,17 @@ director.addJob('echo', function (logger, head, data) {
 var plan = [];
 
 for (var i = 0; i < 10; i++) {
-    plan.push({job: 'echo', data: i});
+    plan.push([{job: 'echo', data: i + '-1'}, {job: 'echo', data: i + '-2'}]);
 }
 
 director.setPlan(plan);
 
-director.setPlanOptions({workers: 10});
+director.setPlanOptions({workers: 2});
 
 director.run()
     .then((result) => {
         logger.info('done');
-        // console.log(JSON.stringify(result, null, '    '));
+        console.log(JSON.stringify(result, null, '    '));
     })
     .catch((error) => {
         logger.error(error);
