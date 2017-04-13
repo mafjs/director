@@ -7,7 +7,7 @@
     "clean": "rm -rf package coverage .nyc_output npm-debug.log",
     "build": "./node_modules/.bin/babel src --out-dir ./package --presets es2015 --source-maps",
     "build:for-test": "npm run build -- --plugins istanbul",
-    "build:package-json": "node ./scripts/copyPackageJson",
+    "build:package-json": "node ./build/copyPackageJson",
     "dev": "npm run build -- --watch --plugins istanbul",
     "test": "npm run build:for-test && ./node_modules/.bin/tap test/unit -J --coverage",
     "test:fast": "./node_modules/.bin/tap test/unit -J",

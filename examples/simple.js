@@ -26,7 +26,7 @@ for (var i = 0; i < 10; i++) {
 
 director.setPlan(plan);
 
-director.setPlanOptions({workers: 2});
+director.setPlanOptions({workers: 5});
 
 director.run()
     .then((result) => {
