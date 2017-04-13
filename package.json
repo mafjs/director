@@ -1,6 +1,6 @@
 {
   "name": "maf-director",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "control jobs like a boss",
   "main": "index.js",
   "scripts": {
