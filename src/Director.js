@@ -18,7 +18,7 @@ class Director {
 
         this.PLAN = PlanTypes;
 
-        this.head = new DirectorHead(logger);
+        this._head = new DirectorHead(logger);
 
         this._jobs = {};
 
@@ -30,6 +30,10 @@ class Director {
 
         this._plan = [];
 
+    }
+
+    get head () {
+        return this._head;
     }
 
     addJob (name, handler) {

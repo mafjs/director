@@ -9,6 +9,7 @@ var director = new Director(logger);
 director.addJob('echo', function (logger, head, data) {
 
     return new Promise((resolve, reject) => {
+        head.set('a', 1);
         setTimeout(function () {
             console.log(data);
             resolve(data);
@@ -30,6 +31,7 @@ director.setPlanOptions({workers: 5});
 
 director.run()
     .then((result) => {
+        logger.info(director.head.get('a'));
         logger.info('done');
         console.log(JSON.stringify(result, null, '    '));
     })

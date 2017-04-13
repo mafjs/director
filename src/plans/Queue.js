@@ -4,6 +4,7 @@ class QueuePlan {
 
     constructor (logger, head, jobs, plan, planOptions) {
         this._logger = logger;
+
         this._head = head;
 
         this._jobs = jobs;
