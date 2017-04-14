@@ -74,6 +74,11 @@ class QueuePlan {
     }
 
     _runStepFromQueue () {
+        if (this._queue.length === 0) {
+            this._logger.debug('runStepFromQueue, empty queue');
+            return;
+        }
+
         var planId = this._queue.shift();
         this._runStep(planId, this._plan[planId]);
     }
