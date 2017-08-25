@@ -49,7 +49,7 @@
     "event-emitter": "^0.3.5",
     "lodash.get": "4.4.x",
     "lodash.set": "4.3.x",
-    "maf-error": "0.9.x"
+    "maf-error": "1.2.x"
   },
   "nyc": {
     "all": true,
