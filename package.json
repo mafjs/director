@@ -42,7 +42,7 @@
     "in-publish": "^2.0.0",
     "log4js-nested": "^1.0.1",
     "proxyquire": "1.x",
-    "source-map-support": "^0.4.16",
+    "source-map-support": "^0.4.17",
     "tap": "10.x"
   },
   "dependencies": {
